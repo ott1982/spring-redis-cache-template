@@ -2,22 +2,24 @@ package com.example.demo;
 
 import com.example.demo.entity.User;
 import com.example.demo.repository.UserRepository;
+import com.example.demo.service.UserService;
 import lombok.extern.slf4j.Slf4j;
 import org.springframework.beans.factory.annotation.Autowired;
 import org.springframework.boot.CommandLineRunner;
 import org.springframework.boot.SpringApplication;
 import org.springframework.boot.autoconfigure.SpringBootApplication;
-import org.springframework.data.domain.Example;
 
 @SpringBootApplication
 @Slf4j
 public class DemoApplication implements CommandLineRunner {
 
     private final UserRepository userRepository;
+    private final UserService userService;
 
     @Autowired
-    public DemoApplication(UserRepository userRepository) {
+    public DemoApplication(UserService userService, UserRepository userRepository) {
         this.userRepository = userRepository;
+        this.userService = userService;
     }
 
     public static void main(String[] args) {
@@ -26,6 +28,7 @@ public class DemoApplication implements CommandLineRunner {
 
     @Override
     public void run(String... args) throws Exception {
+//        resetRedisData();
         User r1 = saveR1(getR1());
         log.info("saved to DB: {}", r1);
         User loadedR1 = loadR1(r1);
@@ -44,8 +47,7 @@ public class DemoApplication implements CommandLineRunner {
     }
 
     private User loadR1(User user) {
-        return userRepository.findOne(Example.of(user))
-                .orElseThrow(() -> new RuntimeException("not found"));
+        return userService.get(String.valueOf(user.getId()));
     }
 
     private User getR1() {
