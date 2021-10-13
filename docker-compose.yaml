@@ -1,0 +1,19 @@
+version: '3.1'
+
+services:
+
+  springboot:
+    image: myspringboot
+    build:
+      context: .
+      dockerfile: Dockerfile-springboot
+    depends_on:
+      - redis
+
+  redis:
+    image: myredis
+    build:
+      context: .
+      dockerfile: Dockerfile-redis
+    ports:
+      - 6379:6379
