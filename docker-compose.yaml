@@ -3,7 +3,7 @@ version: '3.1'
 services:
 
   springboot:
-    image: myspringboot
+    image: orioltristany/myspringboot
     build:
       context: .
       dockerfile: Dockerfile-springboot
@@ -11,7 +11,7 @@ services:
       - redis
 
   redis:
-    image: myredis
+    image: orioltristany/myredis
     build:
       context: .
       dockerfile: Dockerfile-redis
